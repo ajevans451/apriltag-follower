@@ -5,7 +5,7 @@ from dt_apriltags import Detector
 SHOWVISUALS=True
 
 
-imagepath = 'test_image.jpg'
+imagepath = 'test_image_tags.jpg'
 image = cv2.imread(imagepath, cv2.IMREAD_GRAYSCALE)
 detector = Detector("tag36h11")
 
