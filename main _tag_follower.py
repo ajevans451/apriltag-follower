@@ -19,7 +19,7 @@ class TagFollower(Node):
         super().__init__('tag_follower')
 
         self.cv_image = None                        # the latest image from the camera
-        self.bridge=CvBridge                  # used to convert ROS messages to OpenCV
+        self.bridge=CvBridge()                  # used to convert ROS messages to OpenCV
         self.detector = Detector("tag36h11")
         self.create_subscription(Image, image_topic, self.process_image, 10)
         self.pub = self.create_publisher(Twist, 'cmd_vel', 10)
@@ -27,9 +27,9 @@ class TagFollower(Node):
     def process_image(self, msg):
         """ Process image messages from ROS and stash them in an attribute
             called cv_image for subsequent processing """
-        print(msg.header, msg.height, msg.width)
-        self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
-        image = cv2.imread(self.cv_image, cv2.IMREAD_GRAYSCALE)
+        self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="mono8")
+        image = self.cv_image
+        #image = cv2.imread(self.cv_image, cv2.IMREAD_GRAYSCALE)
         detections = self.detector.detect(image)
 
         if SHOWVISUALS==True:
