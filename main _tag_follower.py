@@ -11,7 +11,7 @@ from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist, Vector3
 from cv_bridge import CvBridge
 
-SHOWVISUALS=True
+SHOWVISUALS=False
 
 class TagFollower(Node):
 
@@ -48,6 +48,19 @@ class TagFollower(Node):
             k=cv2.waitKey(0)
             if k==27:
                 cv2.destroyAllWindows()
+
+
+        furthest_tag=self.find_furthest_tag(image)        
+
+    def find_furthest_tag(self, img):      
+        tags=self.detector.detect(img,False)
+        tag_corners = [tag.corners for tag in tags]
+        i=0
+        for i in tag_corners:
+            x_difference=tag_corners[i][0][1]-tag_corners[i][2][1]
+
+        print("start",tag_corners)
+        #print("x difference is ", x_difference)
 
 
 def main(args=None):
