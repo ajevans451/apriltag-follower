@@ -27,6 +27,7 @@ class TagFollower(Node):
     def process_image(self, msg):
         """ Process image messages from ROS and stash them in an attribute
             called cv_image for subsequent processing """
+        print(msg.header, msg.height, msg.width)
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
         image = cv2.imread(self.cv_image, cv2.IMREAD_GRAYSCALE)
         detections = self.detector.detect(image)
@@ -48,10 +49,6 @@ class TagFollower(Node):
             if k==27:
                 cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    node = TagFollower("/camera/image_raw")
-    node.run()
-
 
 def main(args=None):
     rclpy.init()
@@ -59,6 +56,9 @@ def main(args=None):
     rclpy.spin(n)
     rclpy.shutdown()
 
-
 if __name__ == '__main__':
     main()
+
+if __name__ == '__main__':
+    node = TagFollower("/camera/image_raw")
+    node.run()
