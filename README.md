@@ -1,9 +1,17 @@
 # AprilTag Follower
 ## AJ Evans and Jack Levitsky
 
-What was the goal of your project? Since everyone is doing a different project, you will have to spend some time setting this context.
-How did you solve the problem (i.e., what methods / algorithms did you use and how do they work)? As above, since not everyone will be familiar with the algorithms you have chosen, you will need to spend some time explaining what you did and how everything works.
-Describe a design decision you had to make when working on your project and what you ultimately did (and why)? These design decisions could be particular choices for how you implemented some part of an algorithm or perhaps a decision regarding which of two external packages to use in your project.
-What if any challenges did you face along the way?
-What would you do to improve your project if you had more time?
-Did you learn any interesting lessons for future robotic programming projects? These could relate to working on robotics projects in teams, working on more open-ended (and longer term) problems, or any other relevant topic.
+The goal was to direct a NEATO to navigate around the Olin oval.
+
+To achieve this goal, we utilized the AprilTag visual fiducial system to capitalize on the AprilTags that were already present in preset positions around the Olin oval.
+
+The AprilTags that were set up were sorted according to their ID numbers, meaning a valid way to navigate the oval would be for the NEATO to seek the next ID in the sequence and navigate toward it; however, we chose to have the NEATO seek the farthest AprilTag that it detected when it detected multiple tags in one frame. This allowed initial testing to include AprilTags that were not ordered sequentially and forced us to dive further into handling the tag pose data.
+
+When reading images, the shape of the matrix in the image_msg was not compatible with the AprilTag detection function; we could not encode the incoming image in RGB, so we had to encode it in grayscale or mono encoding for the detector to be able to read the AprilTags in the photo.
+
+When calibrating the camera mounted on the NEATO, the ROS camera calibration packages had difficulties installing and could not detect the packages it was dependent on, leaving it unable to be built. To get the camera intrinsics, we instead exported images and used the Camera Calibrator tool on MATLAB.
+
+If granted additional time, we would increase the resolution of the images we were capturing to attempt to detect Apriltags at an increased distance.
+Additionally, adding camera support and stabilization would also be beneficial in increasing the range at which the NEATO could detect the AprilTags.
+
+First and foremost, we have gained confidence from this project working with AprilTags and computer vision that will undoubtedly be helpful at some point in future robotics projects. Our other main takeaway from the project is how useful it can be to get a new set of eyes on a problem. When working to fix the same issue for a long time it can be easy to get lost in a certain way of trying to solve it. Getting someone else to take a look saved us from falling into that rut and ending the project without a successful demo.
